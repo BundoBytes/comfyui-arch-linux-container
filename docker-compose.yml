@@ -1,0 +1,16 @@
+services:
+  comfyui:
+    container_name: comfyui_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: comfyui_image
+
+    volumes:
+      - ..:/home/dev/projects/
+    ports:
+      - '8188:8188'
+    stdin_open: true
+    tty: true
+    devices:
+      - nvidia.com/gpu=all
