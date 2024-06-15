@@ -2,11 +2,11 @@ FROM archlinux
 
 EXPOSE 8188
 
-ENV PACMAN_FLAGS="--noconfirm --needed"
+ENV PACMAN_FLAGS="--noconfirm --needed" VISUAL=nvim EDITOR=nvim
 
 RUN pacman -Syu $PACMAN_FLAGS
 
-RUN pacman -Syu git neovim locate sudo python-pip $PACMAN_FLAGS
+RUN pacman -Syu git neovim locate sudo python-pip libgl base-devel $PACMAN_FLAGS
 
 RUN groupadd sudo
 
