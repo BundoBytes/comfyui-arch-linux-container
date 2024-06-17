@@ -27,6 +27,4 @@ RUN python -m venv comfyui \
   && cd /home/dev/ComfyUI/custom_nodes/ComfyUI-Manager \
   && pip install -r requirements.txt
 
-#ENV NVIDIA_VISIBLE_DEVICES=all PYTHONPATH="${PYTHONPATH}:${PWD}" CLI_ARGS="" PATH=$PATH:/home/dev/.local/bin
-#CMD python3 -u main.py --listen --port 8188 ${CLI_ARGS}
 CMD ["bash", "-c", "source /home/dev/ComfyUI/comfyui/bin/activate && python -u main.py --port 8188 --listen"]
