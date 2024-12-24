@@ -13,8 +13,8 @@ RUN groupadd sudo
 RUN useradd -rm -d /home/dev -s /bin/bash -g root -G sudo -u 1001 -p "$(openssl passwd -1 password)" dev
 
 # Uncomment the following if you want the user to have root permissions:
-RUN usermod -aG sudo dev
-RUN echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+#RUN usermod -aG sudo dev
+#RUN echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
 USER dev
 WORKDIR /home/dev
@@ -45,5 +45,17 @@ RUN source comfyui/bin/activate \
   && git clone https://github.com/ltdrdata/ComfyUI-Manager.git \
   && cd /home/dev/ComfyUI/custom_nodes/ComfyUI-Manager \
   && pip install -r requirements.txt
+
+# Install CUDA
+WORKDIR /home/dev
+RUN wget https://archive.archlinux.org/packages/c/cuda/cuda-12.4.1-4-x86_64.pkg.tar.zst
+RUN sudo pacman -S cuda-12.4.1-4-x86_64.pkg.tar.zst
+ENV PATH=$PATH:/opt/cuda/bin
+
+# Install SageAttention
+RUN git clone https://github.com/thu-ml/SageAttention.git \
+    && cd SageAttention \
+    && python setup.py install
+
 
 CMD ["bash", "-c", "source /home/dev/ComfyUI/comfyui/bin/activate && python -u main.py --port 8188 --listen"]
